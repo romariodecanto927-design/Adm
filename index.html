@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f0;color:#1a1a1a;font-size:14px}
+  .wrap{display:flex;height:100vh;min-height:600px}
+  /* SIDEBAR */
+  .sb{width:210px;background:#fff;border-right:1px solid #e8e8e4;display:flex;flex-direction:column;flex-shrink:0}
+  .sb-logo{padding:18px 16px 14px;border-bottom:1px solid #e8e8e4}
+  .sb-logo strong{display:block;font-size:13px;font-weight:700;color:#1a1a1a}
+  .sb-logo span{font-size:11px;color:#888}
+  .sb-section{padding:10px 0}
+  .sb-label{font-size:10px;font-weight:600;color:#aaa;text-transform:uppercase;letter-spacing:.08em;padding:0 14px 5px}
+  .sb-item{display:flex;align-items:center;gap:9px;padding:8px 14px;font-size:13px;color:#555;cursor:pointer;border-left:3px solid transparent;transition:all .12s}
+  .sb-item:hover{background:#faf9f6;color:#1a1a1a}
+  .sb-item.on{background:#fdf3ef;color:#c0431a;border-left-color:#c0431a;font-weight:600}
+  .sb-footer{margin-top:auto;padding:14px;border-top:1px solid #e8e8e4}
+  .sb-footer small{display:block;font-size:11px;color:#aaa}
+  .sb-footer strong{font-size:13px;color:#1a1a1a}
+  /* MAIN */
+  .main{flex:1;display:flex;flex-direction:column;min-width:0;background:#f5f5f0}
+  .topbar{padding:14px 22px;background:#fff;border-bottom:1px solid #e8e8e4;display:flex;align-items:center;justify-content:space-between}
+  .topbar h1{font-size:15px;font-weight:700;color:#1a1a1a}
+  .topbar-right{display:flex;gap:8px;align-items:center}
+  .badge-green{background:#e6f4d7;color:#3a6b10;font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600}
+  .btn{font-family:inherit;font-size:13px;padding:7px 14px;border-radius:7px;cursor:pointer;font-weight:600;border:1px solid #ddd;background:#fff;color:#333;transition:all .12s}
+  .btn:hover{background:#f0f0ec}
+  .btn-primary{background:#c0431a;color:#fff;border-color:#c0431a}
+  .btn-primary:hover{background:#a83915}
+  .btn-sm{padding:5px 10px;font-size:12px}
+  .btn-ghost{background:transparent;border:1px solid #ddd;color:#555}
+  .btn-del{background:transparent;border:1px solid #e8a0a0;color:#a32d2d;font-size:12px;padding:5px 10px}
+  .btn-del:hover{background:#fef0f0}
+  /* CONTENT */
+  .content{flex:1;padding:20px 22px;overflow-y:auto}
+  .panel{display:none}
+  .panel.on{display:block}
+  /* CARDS */
+  .card{background:#fff;border:1px solid #e8e8e4;border-radius:10px;margin-bottom:16px}
+  .card-head{padding:13px 16px;border-bottom:1px solid #e8e8e4;display:flex;align-items:center;justify-content:space-between}
+  .card-title{font-size:13px;font-weight:700;color:#1a1a1a}
+  .card-body{padding:16px}
+  /* STATS */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+  .stat{background:#fff;border:1px solid #e8e8e4;border-radius:10px;padding:14px 16px}
+  .stat-label{font-size:11px;color:#888;margin-bottom:5px}
+  .stat-val{font-size:22px;font-weight:700;color:#1a1a1a}
+  .stat-sub{font-size:11px;color:#5a8a2a;margin-top:3px}
+  /* TABLE */
+  .tbl{width:100%;border-collapse:collapse}
+  .tbl th{padding:9px 12px;text-align:left;font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.05em;background:#faf9f6;border-bottom:1px solid #e8e8e4}
+  .tbl td{padding:10px 12px;border-bottom:1px solid #f0f0ec;vertical-align:middle;font-size:13px}
+  .tbl tr:last-child td{border-bottom:none}
+  .tbl tr:hover td{background:#fdf9f7}
+  .thumb{width:36px;height:36px;border-radius:7px;background:#f0f0ec;border:1px solid #e8e8e4;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+  .prod-name{display:flex;align-items:center;gap:9px}
+  .cat-pill{background:#f0f0ec;color:#666;font-size:11px;padding:2px 8px;border-radius:20px;border:1px solid #e4e4e0}
+  .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px}
+  .dot-on{background:#5a9e1a}
+  .dot-off{background:#bbb}
+  /* FORM */
+  .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .fg{display:flex;flex-direction:column;gap:5px}
+  .fg.full{grid-column:1/-1}
+  .fg label{font-size:12px;font-weight:600;color:#555}
+  .fg input,.fg select,.fg textarea{font-family:inherit;font-size:13px;border:1px solid #ddd;border-radius:7px;padding:8px 11px;color:#1a1a1a;background:#fff;outline:none;transition:border .12s}
+  .fg input:focus,.fg select:focus,.fg textarea:focus{border-color:#c0431a}
+  .fg textarea{resize:vertical;min-height:80px}
+  .divider{height:1px;background:#e8e8e4;margin:16px 0}
+  .acts{display:flex;gap:8px}
+  /* FILTER */
+  .filter{display:flex;gap:8px;margin-bottom:14px;align-items:center}
+  .filter input{flex:1;font-family:inherit;font-size:13px;border:1px solid #ddd;border-radius:7px;padding:7px 11px;outline:none}
+  .filter input:focus{border-color:#c0431a}
+  .filter select{font-family:inherit;font-size:13px;border:1px solid #ddd;border-radius:7px;padding:7px 11px;outline:none;background:#fff;color:#333}
+  /* BANNER ITEMS */
+  .blist{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+  .bitem{display:flex;align-items:center;gap:12px;padding:11px 14px;background:#fff;border:1px solid #e8e8e4;border-radius:9px}
+  .bprev{width:70px;height:40px;border-radius:7px;background:#f0ede8;display:flex;align-items:center;justify-content:center;font-size:20px;border:1px solid #e8e8e4;flex-shrink:0}
+  .binfo{flex:1;min-width:0}
+  .bname{font-size:13px;font-weight:600;color:#1a1a1a}
+  .bmeta{font-size:11px;color:#888;margin-top:2px}
+  .active-txt{color:#3a7a10}
+  .inactive-txt{color:#999}
+  /* BRANCH */
+  .bgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+  .bcard{background:#fff;border:1px solid #e8e8e4;border-radius:9px;padding:12px 14px}
+  .bcard-name{font-size:13px;font-weight:600;color:#1a1a1a}
+  .bcard-addr{font-size:12px;color:#888;margin-top:2px}
+  /* UPLOAD */
+  .upload{border:2px dashed #ddd;border-radius:9px;padding:22px;text-align:center;cursor:pointer;background:#faf9f6;transition:border .12s}
+  .upload:hover{border-color:#c0431a}
+  .upload p{font-size:12px;color:#888;margin-top:5px}
+  /* TOAST */
+  #toast{position:fixed;bottom:20px;right:20px;background:#2d6b10;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .25s;z-index:999}
+  #toast.show{opacity:1}
+  .sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .sec-desc{font-size:13px;color:#888}
+</style>
+
+<div class="wrap">
+  <!-- SIDEBAR -->
+  <div class="sb">
+    <div class="sb-logo">
+      <strong>Aquidauana Móveis</strong>
+      <span>Painel Admin</span>
+    </div>
+    <div class="sb-section">
+      <div class="sb-label">Geral</div>
+      <div class="sb-item on" onclick="go('dash',this)">▦ Dashboard</div>
+      <div class="sb-item" onclick="go('prods',this)">◫ Produtos</div>
+      <div class="sb-item" onclick="go('add',this)">+ Adicionar produto</div>
+    </div>
+    <div class="sb-section">
+      <div class="sb-label">Site</div>
+      <div class="sb-item" onclick="go('banners',this)">◱ Banners</div>
+      <div class="sb-item" onclick="go('filiais',this)">◉ Filiais</div>
+      <div class="sb-item" onclick="go('vagas',this)">✦ Vagas</div>
+    </div>
+    <div class="sb-footer">
+      <small>Administrador</small>
+      <strong>Gerente Geral</strong>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <h1 id="ptitle">Dashboard</h1>
+      <div class="topbar-right">
+        <span class="badge-green">● Site online</span>
+        <button class="btn btn-ghost btn-sm" onclick="sendPrompt('Como melhorar a taxa de conversão da loja Aquidauana Móveis?')">Pedir sugestões ↗</button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div id="p-dash" class="panel on">
+        <div class="stats">
+          <div class="stat"><div class="stat-label">Produtos</div><div class="stat-val" id="st-prods">3</div><div class="stat-sub">cadastrados</div></div>
+          <div class="stat"><div class="stat-label">Filiais</div><div class="stat-val">6</div><div class="stat-sub">Mato Grosso do Sul</div></div>
+          <div class="stat"><div class="stat-label">Banners</div><div class="stat-val">2</div><div class="stat-sub">página inicial</div></div>
+          <div class="stat"><div class="stat-label">Vagas abertas</div><div class="stat-val">1</div><div class="stat-sub">formulário ativo</div></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div class="card-title">Produtos recentes</div></div>
+          <table class="tbl">
+            <thead><tr><th>Produto</th><th>Categoria</th><th>Preço</th><th>Status</th></tr></thead>
+            <tbody id="dash-tb"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PRODUTOS -->
+      <div id="p-prods" class="panel">
+        <div class="filter">
+          <input type="text" placeholder="Buscar produto..." oninput="filterP(this.value)" id="srch">
+          <select id="fcat" onchange="filterP(document.getElementById('srch').value)">
+            <option value="">Todas as categorias</option>
+            <option>Cozinhas</option><option>Quartos</option><option>Sala de Estar</option><option>Escritório</option>
+          </select>
+          <button class="btn btn-primary btn-sm" onclick="go('add',document.querySelectorAll('.sb-item')[2])">+ Novo produto</button>
+        </div>
+        <div class="card">
+          <table class="tbl">
+            <thead><tr><th>Produto</th><th>Categoria</th><th>Preço orig.</th><th>Preço promo.</th><th>Status</th><th>Ações</th></tr></thead>
+            <tbody id="prods-tb"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ADICIONAR -->
+      <div id="p-add" class="panel">
+        <div class="card">
+          <div class="card-head"><div class="card-title">Novo produto</div></div>
+          <div class="card-body">
+            <div class="fgrid">
+              <div class="fg full"><label>Nome do produto</label><input id="f-nome" placeholder="Ex: Armário de Cozinha Completa 240cm"></div>
+              <div class="fg"><label>Categoria</label>
+                <select id="f-cat">
+                  <option value="">Selecione...</option>
+                  <option>Cozinhas</option><option>Quartos</option><option>Sala de Estar</option><option>Escritório</option>
+                </select>
+              </div>
+              <div class="fg"><label>Status</label>
+                <select id="f-status"><option>Ativo</option><option>Inativo</option></select>
+              </div>
+              <div class="fg"><label>Preço original (R$)</label><input type="number" id="f-orig" placeholder="2499.00"></div>
+              <div class="fg"><label>Preço promocional (R$)</label><input type="number" id="f-promo" placeholder="1799.00"></div>
+              <div class="fg"><label>Parcelas sem juros</label><input type="number" id="f-parc" value="10"></div>
+              <div class="fg"><label>Badge de destaque</label>
+                <select id="f-badge"><option value="">Nenhum</option><option>Frete Grátis</option><option>20% OFF</option><option>Lançamento</option><option>Mais vendido</option></select>
+              </div>
+              <div class="fg full"><label>Descrição</label><textarea id="f-desc" placeholder="Materiais, dimensões, cores..."></textarea></div>
+              <div class="fg full"><label>URL da imagem</label><input id="f-img" placeholder="https://..."></div>
+              <div class="fg full">
+                <label>Ou faça upload</label>
+                <div class="upload" onclick="document.getElementById('fup').click()">
+                  <div style="font-size:24px">📷</div>
+                  <p>Clique para selecionar PNG, JPG ou WEBP</p>
+                  <input type="file" id="fup" accept="image/*" style="display:none" onchange="onUpload(this)">
+                </div>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="acts">
+              <button class="btn btn-primary" onclick="addProd()">Salvar produto</button>
+              <button class="btn" onclick="clearF()">Limpar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BANNERS -->
+      <div id="p-banners" class="panel">
+        <div class="sec-head">
+          <span class="sec-desc">Banners exibidos na página inicial</span>
+          <button class="btn btn-primary btn-sm">+ Novo banner</button>
+        </div>
+        <div class="blist">
+          <div class="bitem"><div class="bprev">🏠</div><div class="binfo"><div class="bname">Cozinha dos Seus Sonhos</div><div class="bmeta">Linha Lux · Posição 1 · <span class="active-txt">Ativo</span></div></div><div class="acts"><button class="btn btn-sm">Editar</button><button class="btn-del btn">Remover</button></div></div>
+          <div class="bitem"><div class="bprev">🛋️</div><div class="binfo"><div class="bname">Sala Completa em Oferta</div><div class="bmeta">Promoção mensal · Posição 2 · <span class="inactive-txt">Inativo</span></div></div><div class="acts"><button class="btn btn-sm">Editar</button><button class="btn-del btn">Remover</button></div></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div class="card-title">Adicionar banner</div></div>
+          <div class="card-body">
+            <div class="fgrid">
+              <div class="fg"><label>Título</label><input placeholder="Ex: Cozinha dos Seus Sonhos"></div>
+              <div class="fg"><label>Subtítulo</label><input placeholder="Ex: Linha Lux premium"></div>
+              <div class="fg full"><label>URL da imagem de fundo</label><input placeholder="https://..."></div>
+              <div class="fg"><label>Texto do botão</label><input placeholder="Compre Agora"></div>
+              <div class="fg"><label>Link do botão</label><input placeholder="https://..."></div>
+            </div>
+            <div class="divider"></div>
+            <button class="btn btn-primary" onclick="toast('Banner salvo!')">Salvar banner</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- FILIAIS -->
+      <div id="p-filiais" class="panel">
+        <div class="sec-head">
+          <span class="sec-desc">Filiais listadas no rodapé do site</span>
+          <button class="btn btn-primary btn-sm" onclick="toast('Filial adicionada!')">+ Adicionar filial</button>
+        </div>
+        <div class="bgrid" id="bgrid">
+          <div class="bcard"><div class="bcard-name">Ivinhema</div><div class="bcard-addr">Mato Grosso do Sul</div></div>
+          <div class="bcard"><div class="bcard-name">Bela Vista</div><div class="bcard-addr">Mato Grosso do Sul</div></div>
+          <div class="bcard"><div class="bcard-name">Aquidauana</div><div class="bcard-addr">Mato Grosso do Sul</div></div>
+          <div class="bcard"><div class="bcard-name">Porto Murtinho</div><div class="bcard-addr">Mato Grosso do Sul</div></div>
+          <div class="bcard"><div class="bcard-name">Jardim</div><div class="bcard-addr">Mato Grosso do Sul</div></div>
+          <div class="bcard"><div class="bcard-name">Ponta Porã</div><div class="bcard-addr">Mato Grosso do Sul</div></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div class="card-title">Nova filial</div></div>
+          <div class="card-body">
+            <div class="fgrid">
+              <div class="fg"><label>Cidade</label><input id="bn" placeholder="Ex: Campo Grande"></div>
+              <div class="fg"><label>Endereço</label><input id="ba" placeholder="Rua, número..."></div>
+              <div class="fg"><label>Telefone</label><input placeholder="(67) 9..."></div>
+              <div class="fg"><label>Horário</label><input placeholder="Seg–Sáb 8h–18h"></div>
+            </div>
+            <div class="divider"></div>
+            <button class="btn btn-primary" onclick="addBranch()">Salvar filial</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VAGAS -->
+      <div id="p-vagas" class="panel">
+        <div class="card" style="margin-bottom:12px">
+          <div class="card-head"><div class="card-title">Link de vagas abertas</div></div>
+          <div class="card-body">
+            <div class="fgrid">
+              <div class="fg"><label>URL do formulário</label><input value="https://forms.gle/qd7JF1Ux7LE6NHDv7"></div>
+              <div class="fg"><label>Texto no menu</label><input value="Vagas abertas"></div>
+              <div class="fg"><label>Visível no menu</label><select><option>Sim</option><option>Não</option></select></div>
+            </div>
+            <div class="divider"></div>
+            <button class="btn btn-primary" onclick="toast('Vagas salvas!')">Salvar</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div class="card-title">Barra do topo</div></div>
+          <div class="card-body">
+            <div class="fg" style="margin-bottom:12px"><label>Texto exibido</label><input value="MAIS DE 15 ANOS ATENDENDO VOCÊ CLIENTE AQUIDAUANA"></div>
+            <button class="btn btn-primary" onclick="toast('Barra atualizada!')">Atualizar</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+var prods=[
+  {id:1,nome:'Armário de Cozinha Completa 240cm',cat:'Cozinhas',orig:2499,promo:1799,badge:'Frete Grátis',status:'Ativo',em:'🍳'},
+  {id:2,nome:'Mesa de Jantar 4 Lugares com Cadeiras',cat:'Sala de Estar',orig:899,promo:649,badge:'20% OFF',status:'Ativo',em:'🪑'},
+  {id:3,nome:'Guarda-Roupa Casal 6 Portas',cat:'Quartos',orig:1299,promo:999,badge:'Lançamento',status:'Inativo',em:'🚪'},
+];
+
+function brl(v){return'R$ '+Number(v).toLocaleString('pt-BR',{minimumFractionDigits:2})}
+
+function renderDash(){
+  document.getElementById('st-prods').textContent=prods.length;
+  document.getElementById('dash-tb').innerHTML=prods.slice(0,3).map(p=>`
+    <tr><td><div class="prod-name"><div class="thumb">${p.em}</div>${p.nome}</div></td>
+    <td><span class="cat-pill">${p.cat}</span></td>
+    <td>${brl(p.promo)}</td>
+    <td><span class="dot ${p.status==='Ativo'?'dot-on':'dot-off'}"></span>${p.status}</td></tr>
+  `).join('');
+}
+
+function renderProds(list){
+  document.getElementById('prods-tb').innerHTML=(list||prods).map(p=>`
+    <tr><td><div class="prod-name"><div class="thumb">${p.em}</div>${p.nome}</div></td>
+    <td><span class="cat-pill">${p.cat}</span></td>
+    <td style="color:#aaa;text-decoration:line-through">${brl(p.orig)}</td>
+    <td style="font-weight:700;color:#c0431a">${brl(p.promo)}</td>
+    <td><span class="dot ${p.status==='Ativo'?'dot-on':'dot-off'}"></span>${p.status}</td>
+    <td><div class="acts"><button class="btn btn-sm" onclick="editP(${p.id})">Editar</button><button class="btn btn-del btn" onclick="delP(${p.id})">Remover</button></div></td></tr>
+  `).join('');
+}
+
+function filterP(q){
+  var cat=document.getElementById('fcat').value;
+  renderProds(prods.filter(p=>p.nome.toLowerCase().includes(q.toLowerCase())&&(!cat||p.cat===cat)));
+}
+
+function addProd(){
+  var nome=document.getElementById('f-nome').value.trim();
+  if(!nome){toast('Informe o nome!');return}
+  prods.unshift({id:Date.now(),nome,cat:document.getElementById('f-cat').value||'Geral',
+    orig:parseFloat(document.getElementById('f-orig').value)||0,
+    promo:parseFloat(document.getElementById('f-promo').value)||0,
+    badge:document.getElementById('f-badge').value,
+    status:document.getElementById('f-status').value,em:'📦'});
+  renderDash();clearF();toast('Produto adicionado!');
+  go('prods',document.querySelectorAll('.sb-item')[1]);
+}
+
+function delP(id){prods=prods.filter(p=>p.id!==id);renderProds();renderDash();toast('Produto removido.')}
+
+function editP(id){
+  var p=prods.find(x=>x.id===id);if(!p)return;
+  document.getElementById('f-nome').value=p.nome;
+  document.getElementById('f-cat').value=p.cat;
+  document.getElementById('f-orig').value=p.orig;
+  document.getElementById('f-promo').value=p.promo;
+  document.getElementById('f-status').value=p.status;
+  go('add',document.querySelectorAll('.sb-item')[2]);toast('Edite e salve novamente.');
+}
+
+function clearF(){
+  ['f-nome','f-orig','f-promo','f-desc','f-img'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-cat').value='';
+  document.getElementById('f-badge').value='';
+  document.getElementById('f-status').value='Ativo';
+  document.getElementById('f-parc').value='10';
+}
+
+function addBranch(){
+  var n=document.getElementById('bn').value.trim();if(!n){toast('Informe a cidade!');return}
+  var a=document.getElementById('ba').value||'Mato Grosso do Sul';
+  var d=document.createElement('div');d.className='bcard';
+  d.innerHTML='<div class="bcard-name">'+n+'</div><div class="bcard-addr">'+a+'</div>';
+  document.getElementById('bgrid').appendChild(d);
+  document.getElementById('bn').value='';document.getElementById('ba').value='';
+  toast('Filial adicionada!');
+}
+
+function onUpload(inp){
+  if(inp.files&&inp.files[0]){toast('Imagem carregada!')}
+}
+
+function go(id,el){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.getElementById('p-'+id).classList.add('on');
+  document.querySelectorAll('.sb-item').forEach(n=>n.classList.remove('on'));
+  if(el)el.classList.add('on');
+  var t={dash:'Dashboard',prods:'Produtos',add:'Adicionar produto',banners:'Banners',filiais:'Filiais',vagas:'Vagas & Avisos'};
+  document.getElementById('ptitle').textContent=t[id]||id;
+  if(id==='prods')renderProds();
+}
+
+function toast(msg){
+  var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+renderDash();
+</script>
+</html>
+    
+  </body>
+  
+</html>
